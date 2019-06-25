@@ -17,7 +17,7 @@ yarn-error.log
 
 # build-analytics
 .build-analytics
-
+package-lock.json
 .idea
 
 # rollup-.env output

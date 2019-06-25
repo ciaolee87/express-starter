@@ -1,24 +1,24 @@
+import EnvPath from "./utils/donenv/DotenvUtil";
 import express from 'express';
 import * as path from 'path';
 import cookieParser from "cookie-parser";
-import {ErrorMidware} from "./midwares/error/ErrorMidware";
-import {ResMidware} from "./midwares/res/ResMidware";
-import {LoadDotenv} from "./utils/donenv/DotenvUtil";
-import {PageNotFoundMidware} from "./midwares/pageNotFound/PageNotFoundMidware";
-import Logger from "./utils/logger/WinstonLogger";
 import Helmet from "helmet";
 import Hpp from "hpp";
 import {AwsHealthCheckerMidware} from "./midwares/aws/AwsHealthCheckerMidware";
-import AccountRouter from "./routes/account/AccountRouter";
-import {BootService} from "./services/boot/BootService";
+import {ResMidware} from "./midwares/res/ResMidware";
+import {PageNotFoundMidware} from "./midwares/pageNotFound/PageNotFoundMidware";
+import {ErrorMidware} from "./midwares/error/ErrorMidware";
+import {DbSync} from "./utils/sequelize/Sequelize";
+import {RootRouter} from "./routes/root/RootRouter";
 
-export const ExpressApp = express();
+// DotEnv 초기화
+console.log("EnvPath", EnvPath);
 
-// dotEnv 설정값 가저오기
-LoadDotenv();
+// 데이터베이스 초기화
+DbSync();
 
-// 부팅 서비스
-BootService();
+// Express 초기화
+const ExpressApp = express();
 
 // 기초보안패치
 ExpressApp.use(Helmet());
@@ -35,7 +35,7 @@ ExpressApp.use(express.urlencoded({extended: false}));
 ExpressApp.use(cookieParser());
 
 // static 파일 위치 설정(그림 및 파일 등)
-ExpressApp.use(express.static(path.join(__dirname, 'assets')));
+ExpressApp.use(express.static(path.join(__dirname, '../pages/assets')));
 
 // AWS HealthChecker
 ExpressApp.use(AwsHealthCheckerMidware);
@@ -44,7 +44,7 @@ ExpressApp.use(AwsHealthCheckerMidware);
 ExpressApp.use(ResMidware);
 
 // 로우터 추가하기
-ExpressApp.use('/account', AccountRouter);
+ExpressApp.use('/', RootRouter);
 
 // 등록된 로우터로 접속하지 않을 경우 에러 처리
 ExpressApp.use(PageNotFoundMidware);
@@ -54,10 +54,9 @@ ExpressApp.use(ErrorMidware);
 
 // 포트열고 서버실행
 const port = Number(process.env.PORT) || 3000;
-export const HttpServer = ExpressApp.listen(port, () => {
-    Logger.debug(`서버 기동 완료 ${port} 포트`);
+ExpressApp.listen(port, () => {
+    console.log(`Server ON, Port ${port}`);
 }).on("error", (error) => {
-    Logger.debug(`서버 기동 실패!`, error);
+    console.log(`Fail to open sever!`, error);
     process.exit(0);
 });
-

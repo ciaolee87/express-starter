@@ -1,31 +1,25 @@
-# Server Config
 PORT=3000
 JWT_TOKEN_SECRET=JW7_t0k3n_S3cR37
 JWT_TOKEN_MAKER=JW7_t0k3n_M4k3R
-LOG_PATH=./logs
+LOG_PATH=../logs
+LOG_LEVEL=debug
 SERVER_VERSION=1.0.0
 CLIENT_VERSION=1.0.0
-
-# DB Config
 DB_USER=root
 DB_PW=12341234
 DB_SCHEMA=ubi
 DB_HOST=localhost
 DB_DIALECT=mysql
 DB_PORT=3306
-DB_ALTER=true               # 데이터 유지하며 ORM 재구축
-DB_LOG=true                 # 로그
-DB_FORCE=false              # 서버 기동시 데이터 베이스 초기화
-
-# Firebase Addr
+DB_ALTER=true
+DB_LOG=true
+DB_FORCE=true
 FB_API=ABC
 FB_AUTH_DOMAIL=ABC
 FB_DATABASE_URL=ABC
 FB_PROJECT_ID=ABC
 FB_STORAGE_BUCKET=ABC
 FB_MESSAGING_SENDER_ID=ABC
-
-# Firebase Key
 FB_TYPE=ABC
 FB_PRIVATE_ID=ABC
 FB_PRIVATE_KEY_ID=ABC
