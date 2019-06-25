@@ -3,7 +3,9 @@ import fs from "fs";
 import dotEnv from "dotenv";
 
 // 값이 지정되지 않았다면 초기값을 넣어준다
-process.env.NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
+if (!(process.env.NODE_ENV)) {
+    process.env.NODE_ENV = "development";
+}
 
 // 화면에 표시
 console.log(`서버모드 ${process.env.NODE_ENV}`);
