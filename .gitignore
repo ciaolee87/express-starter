@@ -1,0 +1,27 @@
+/dist/
+node_modules
+.idea
+.settings
+.vscode
+.DS_Store
+/build/
+logs/
+
+# Don't check in secret files
+*secret.js
+
+# Ignore npm/yarn debug log
+npm-debug.log
+yarn-error.log
+.js
+
+# build-analytics
+.build-analytics
+
+.idea
+
+# rollup-.env output
+docs/idea/receipt/.DS_Store
+
+src/migrations/
+src/seeders/
