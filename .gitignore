@@ -18,7 +18,8 @@ yarn-error.log
 # build-analytics
 .build-analytics
 package-lock.json
-.idea
+pages/
+
 
 # rollup-.env output
 docs/idea/receipt/.DS_Store

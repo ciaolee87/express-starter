@@ -1,6 +1,3 @@
-import {Account} from "./Account";
-import {Receipt} from "./Receipt";
-import {Category} from "./Category";
-import {Session} from "./Session";
+import {User} from "./Users";
 
-export const Models = [Account, Category, Receipt, Session];
+export const Models = [User];

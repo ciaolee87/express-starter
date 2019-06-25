@@ -3,7 +3,7 @@ import {SignOptions} from "jsonwebtoken";
 import {BizError} from "../../midwares/error/ErrorMidware";
 
 
-const secret = process.env.JWT_TOKEN_SECRET || 'JW7_t0k3n_S3cR37';
+const secret = process.env.JWT_TOKEN_SECRET;
 
 export const JwtUtil = {
     mkToken<T>(payload: T, options?: SignOptions): string {
