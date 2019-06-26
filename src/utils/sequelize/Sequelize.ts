@@ -38,9 +38,9 @@ export const DB = {
 
 // 데이터베이스 초기화
 let syncConfig: SyncOptions = {
-    alter: Boolean(process.env.DB_ALTER),
-    logging: Boolean(process.env.DB_LOG),
-    force: Boolean(process.env.DB_FORCE)
+    alter: process.env.DB_ALTER == 'true',
+    logging: process.env.DB_LOG == 'true',
+    force: process.env.DB_FORCE == 'true'
 };
 
 export const DbSync = () => {
