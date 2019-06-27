@@ -53,9 +53,8 @@ ExpressApp.use(InvalidRequestMidware);
 ExpressApp.use(ErrorMidware);
 
 // 포트열고 서버실행
-const port = Number(process.env.PORT) || 3000;
-ExpressApp.listen(port, () => {
-    console.log(`Server ON, Port ${port}`);
+ExpressApp.listen(Number(process.env.PORT), () => {
+    console.log(`Server ON, Port ${process.env.PORT}`);
 }).on("error", (error) => {
     console.log(`Fail to open sever!`, error);
     process.exit(0);
