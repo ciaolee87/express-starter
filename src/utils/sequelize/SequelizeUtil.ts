@@ -1,8 +1,6 @@
-import {StackLogger} from "../logger/StackLogger";
 import camelcase = require("camelcase");
 import {QueryOptions, QueryTypes} from "sequelize";
 import {DB} from "./Sequelize";
-
 
 
 export class SequelizerUtil {
@@ -14,14 +12,16 @@ export class SequelizerUtil {
         return new Promise<any>(async (resolve, reject) => {
             try { // 쿼리를 실행한다
 
+                // 옵션이 없으면 추가하기
                 if (!(options)) {
-                    options.type = QueryTypes.SELECT
+                    options = {
+                        type: QueryTypes.SELECT
+                    };
+                } else {
+                    options.type = QueryTypes.SELECT;
                 }
 
-                const raw = await DB.sequel.query(sql, options);
-
-                // 첫번째 결과값만 사용한다
-                const result = raw[0];
+                const result = await DB.sequel.query(sql, options);
 
                 let resArray = [];
                 for (let rcd of result) {
@@ -31,11 +31,8 @@ export class SequelizerUtil {
                     }
                     resArray.push(item);
                 }
-
-                StackLogger.stack("SQL", {sql: sql, options: options, result: resArray});
                 resolve(resArray);
             } catch (e) {
-                StackLogger.stack("SQL Fail", [sql, options, e]);
                 reject(e);
             }
         });
@@ -45,13 +42,17 @@ export class SequelizerUtil {
     selectOne<T>(sql: string | { query: string, values: any[] }, options?: QueryOptions | any): Promise<T> {
         return new Promise<any>(async (resolve, reject) => {
             try { // 쿼리를 실행한다
+
+                // 옵션이 없으면 추가하기
                 if (!(options)) {
-                    options.type = QueryTypes.SELECT
+                    options = {
+                        type: QueryTypes.SELECT
+                    };
+                } else {
+                    options.type = QueryTypes.SELECT;
                 }
 
-                const raw = await DB.sequel.query(sql, options);
-
-                const result: any = raw[0][0];
+                const result = await DB.sequel.query(sql, options);
 
                 // 결과값이 없으면 null 값을 반환한다
                 if (result.length == 0) {
@@ -63,11 +64,8 @@ export class SequelizerUtil {
                     const camelName = camelcase(name);
                     item[camelName] = result[name];
                 }
-
-                StackLogger.stack("SQL ", {sql: sql, options: options, result: item});
                 resolve(item);
             } catch (e) {
-                StackLogger.stack("SQL Fail", [sql, options, e]);
                 reject(e);
             }
         });
@@ -77,15 +75,18 @@ export class SequelizerUtil {
     update(sql: string | { query: string, values: any[] }, options?: QueryOptions | any): Promise<UDResult> {
         return new Promise<any>(async (resolve, reject) => {
             try { // 쿼리를 실행한다
+                // 옵션이 없으면 추가하기
                 if (!(options)) {
-                    options.type = QueryTypes.UPDATE
+                    options = {
+                        type: QueryTypes.UPDATE
+                    };
+                } else {
+                    options.type = QueryTypes.UPDATE;
                 }
 
                 const raw = await DB.sequel.query(sql, options);
-                StackLogger.stack("SQL", {sql: sql, options: options, result: raw[0]});
-                resolve(raw[0]);
+                resolve(raw);
             } catch (e) {
-                StackLogger.stack("SQL Fail", [sql, options, e]);
                 reject(e);
             }
         });
@@ -95,15 +96,20 @@ export class SequelizerUtil {
     delete(sql: string | { query: string, values: any[] }, options?: QueryOptions | any): Promise<UDResult> {
         return new Promise<any>(async (resolve, reject) => {
             try { // 쿼리를 실행한다
+                // 옵션이 없으면 추가하기
                 if (!(options)) {
-                    options.type = QueryTypes.DELETE
+                    options = {
+                        type: QueryTypes.DELETE
+                    };
+                } else {
+                    options.type = QueryTypes.DELETE;
                 }
 
                 const raw = await DB.sequel.query(sql, options);
-                StackLogger.stack("SQL", {sql: sql, options: options, result: raw[0]});
-                resolve(raw[0]);
+                // Logger.debug("SQL", {sql: sql, options: options, result: raw[0]});
+                resolve(raw);
             } catch (e) {
-                StackLogger.stack("SQL Fail", [sql, options, e]);
+                // Logger.debug("SQL Fail", [sql, options, e]);
                 reject(e);
             }
         });
@@ -112,14 +118,18 @@ export class SequelizerUtil {
     insert(sql: string | { query: string, values: any[] }, options?: QueryOptions | any): Promise<number> {
         return new Promise<any>(async (resolve, reject) => {
             try { // 쿼리를 실행한다
+                // 옵션이 없으면 추가하기
                 if (!(options)) {
-                    options.type = QueryTypes.INSERT
+                    options = {
+                        type: QueryTypes.INSERT
+                    };
+                } else {
+                    options.type = QueryTypes.INSERT;
                 }
                 const raw = await DB.sequel.query(sql, options);
-                StackLogger.stack("SQL", {sql: sql, options: options, result: raw[1]});
-                resolve(raw[1]);
+                resolve(raw);
             } catch (e) {
-                StackLogger.stack("SQL Fail", [sql, options, e]);
+                // Logger.debug("SQL Fail", [sql, options, e]);
                 reject(e);
             }
         });
