@@ -24,14 +24,9 @@ const ExpressApp = express();
 ExpressApp.use(Helmet());
 ExpressApp.use(Hpp());
 
-// body parser 설정
-ExpressApp.use(express.json());
-
-// json parser 설정
+// parser 설정
 ExpressApp.use(express.json());
 ExpressApp.use(express.urlencoded({extended: false}));
-
-// cookie parser 설정
 ExpressApp.use(cookieParser());
 
 // static 파일 위치 설정(그림 및 파일 등)
