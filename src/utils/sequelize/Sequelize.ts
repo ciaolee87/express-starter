@@ -1,9 +1,8 @@
 import {Sequelize} from 'sequelize-typescript';
 import {SequelizerUtil} from "./SequelizeUtil";
 import {Models} from "../../models";
-import {StackLogger} from "../logger/StackLogger";
 import {SyncOptions} from "sequelize";
-import {exitOnError} from "winston";
+import Logger from "../logger/WinstonLogger";
 
 let config: any = {
     username: process.env.DB_USER,
@@ -12,11 +11,15 @@ let config: any = {
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
     port: process.env.DB_PORT,
-    dialectOptions: {decimalNumbers: true},
-    logging: (str: any) => {
-        StackLogger.stack(str);
-    }
+    dialectOptions: {decimalNumbers: true}
 };
+
+// 로깅 프린트 옵션이 있다면 적용한다
+if (process.env.LOG_PRINT == 'true') {
+    config.logging = (str: any) => {
+        Logger.debug(str);
+    }
+}
 
 // 시퀄라이저 객체 생성
 const sequel = new Sequelize(config);
