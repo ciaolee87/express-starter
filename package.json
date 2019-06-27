@@ -19,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "acorn-dynamic-import": "^4.0.0",
     "camelcase": "^5.0.0",
     "cookie-parser": "^1.4.3",
     "dateformat": "^3.0.3",
