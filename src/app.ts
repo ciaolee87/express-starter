@@ -35,7 +35,7 @@ ExpressApp.use(express.urlencoded({extended: false}));
 ExpressApp.use(cookieParser());
 
 // static 파일 위치 설정(그림 및 파일 등)
-ExpressApp.use(express.static(path.join(__dirname, '../pages/assets')));
+ExpressApp.use(express.static(path.join(__dirname, '../pages/')));
 
 // AWS HealthChecker
 ExpressApp.use(AwsHealthCheckerMidware);

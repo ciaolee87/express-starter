@@ -44,12 +44,15 @@ let syncConfig: SyncOptions = {
     force: process.env.DB_FORCE == 'true'
 };
 
-export const DbSync = (callback: () => void) => {
+export const DbSync = (callback?: () => void) => {
     console.log("Sequelize Connection", config);
     console.log("Sequelize Sync", syncConfig);
     DB.sequel.sync(syncConfig).then(value => {
         console.log("Sequelize Synchronized!");
-        callback();
+
+        if (callback) {
+            callback();
+        }
     }).catch(reason => {
         console.log('데이터베이스 접속실패', reason);
         console.log('서버를 종료합니다');
