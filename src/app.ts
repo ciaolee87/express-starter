@@ -6,7 +6,7 @@ import Helmet from "helmet";
 import Hpp from "hpp";
 import {AwsHealthCheckerMidware} from "./midwares/aws/AwsHealthCheckerMidware";
 import {ResMidware} from "./midwares/res/ResMidware";
-import {PageNotFoundMidware} from "./midwares/pageNotFound/PageNotFoundMidware";
+import {InvalidRequestMidware} from "./midwares/pageNotFound/InvalidRequestMidware";
 import {ErrorMidware} from "./midwares/error/ErrorMidware";
 import {DbSync} from "./utils/sequelize/Sequelize";
 import {RootRouter} from "./routes/root/RootRouter";
@@ -47,7 +47,7 @@ ExpressApp.use(ResMidware);
 ExpressApp.use('/', RootRouter);
 
 // 등록된 로우터로 접속하지 않을 경우 에러 처리
-ExpressApp.use(PageNotFoundMidware);
+ExpressApp.use(InvalidRequestMidware);
 
 // 에러 핸들러
 ExpressApp.use(ErrorMidware);
