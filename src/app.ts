@@ -35,13 +35,13 @@ ExpressApp.use(express.static(path.join(__dirname, '../pages/')));
 // AWS HealthChecker
 ExpressApp.use(AwsHealthCheckerMidware);
 
-// response 커스텀 메서드 추가
+// request 커스텀 메서드 추가
 ExpressApp.use(ResMidware);
 
-// 로우터 추가하기
+// 이곳에 라우터 추가하기
 ExpressApp.use('/', RootRouter);
 
-// 등록된 로우터로 접속하지 않을 경우 에러 처리
+// 등록된 요청값이 아니면 에러처리 하기
 ExpressApp.use(InvalidRequestMidware);
 
 // 에러 핸들러
