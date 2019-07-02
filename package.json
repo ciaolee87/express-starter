@@ -38,8 +38,8 @@
     "mysql2": "^1.6.4",
     "pm2": "^3.3.1",
     "reflect-metadata": "^0.1.13",
-    "sequelize": "^5.8.12",
-    "sequelize-typescript": "^0.6.12-beta.3",
+    "sequelize": "^4.44.0",
+    "sequelize-typescript": "^0.6.11",
     "uuid": "^3.3.2",
     "winston": "^3.2.0",
     "winston-daily-rotate-file": "^3.6.0"

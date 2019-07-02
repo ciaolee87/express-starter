@@ -22,16 +22,17 @@ export class SequelizerUtil {
                 }
 
                 const result = await DB.sequel.query(sql, options);
+                resolve(result);
 
-                let resArray = [];
-                for (let rcd of result) {
-                    let item: any = {};
-                    for (let columnName in rcd) {
-                        item[camelcase(columnName)] = rcd[columnName];
-                    }
-                    resArray.push(item);
-                }
-                resolve(resArray);
+                // let resArray = [];
+                // for (let rcd of result) {
+                //     let item: any = {};
+                //     for (let columnName in rcd) {
+                //         item[camelcase(columnName)] = rcd[columnName];
+                //     }
+                //     resArray.push(item);
+                // }
+                // resolve(resArray);
             } catch (e) {
                 reject(e);
             }
@@ -59,12 +60,14 @@ export class SequelizerUtil {
                     resolve(null);
                 }
 
-                let item: any = {};
-                for (let name in result) {
-                    const camelName = camelcase(name);
-                    item[camelName] = result[name];
-                }
-                resolve(item);
+                resolve(result[0]);
+
+                // let item: any = {};
+                // for (let name in result) {
+                //     const camelName = camelcase(name);
+                //     item[camelName] = result[name];
+                // }
+                // resolve(item);
             } catch (e) {
                 reject(e);
             }
