@@ -10,6 +10,7 @@ import {InvalidRequestMidware} from "./midwares/pageNotFound/InvalidRequestMidwa
 import {ErrorMidware} from "./midwares/error/ErrorMidware";
 import {DbSync} from "./utils/sequelize/Sequelize";
 import {RootRouter} from "./routes/root/RootRouter";
+import {UploadRouter} from "./routes/upload/UploadRouter";
 
 // DotEnv 초기화
 console.log("EnvPath", EnvPath);
@@ -40,6 +41,7 @@ ExpressApp.use(ResMidware);
 
 // 이곳에 라우터 추가하기
 ExpressApp.use('/', RootRouter);
+ExpressApp.use('/upload', UploadRouter);
 
 // 등록된 요청값이 아니면 에러처리 하기
 ExpressApp.use(InvalidRequestMidware);

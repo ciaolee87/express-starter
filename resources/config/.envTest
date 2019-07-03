@@ -1,5 +1,8 @@
 PORT=3000
 ROOT_PATH=/Users/glosfer_mac/Documents/express-starter
+UPLOAD_FILE_PATH=../../../uploads
+UPLOAD_FILE_MAX_BYTE_SIZE=5242880
+UPLOAD_FILE_FILTER=png|bmp|jpg
 JWT_TOKEN_SECRET=JW7_t0k3n_S3cR37
 JWT_TOKEN_MAKER=JW7_t0k3n_M4k3R
 LOG_PATH=../logs

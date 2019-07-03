@@ -1,3 +1,4 @@
-import {User} from "./Users";
+import {User} from "./User";
+import {UploadFile} from "./UploadFile";
 
-export const Models = [User];
+export const Models = [User, UploadFile];

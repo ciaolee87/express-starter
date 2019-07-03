@@ -2,8 +2,7 @@ import {Table, Column, Model, HasMany} from 'sequelize-typescript';
 
 
 @Table({
-    timestamps: true, tableName: 'app_users',
-    underscoredAll: true, underscored: true
+    timestamps: true
 })
 export class User extends Model<User> {
     @Column({
