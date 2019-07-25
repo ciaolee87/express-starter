@@ -1,23 +1,21 @@
 import {ErrorRequestHandler, NextFunction, Request, Response} from "express-serve-static-core";
 import {StackLogger} from "../../utils/logger/StackLogger";
-import {DefResCode, ResCode} from "../../resCode/ResCode";
+import {DefResCode} from "../../resCode/ResCode";
 
-// 메시지
-const errorMsg = require('../../../resources/codes/en-US.json');
 
 // 에러 미들웨어
 export const ErrorMidware: ErrorRequestHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     // 기본값
     let response = {
         code: 500,
-        msg: errorMsg["500"] || 'System error',
+        msg: 'System error',
     };
 
     // 입력값이 있으면 그 값을 입력한다
     if (err instanceof BizError) {
         response = {
             code: err.code,
-            msg: errorMsg[String(err.code)] || ('ERROR'),
+            msg: err.msg || ('ERROR'),
         };
     }
 
