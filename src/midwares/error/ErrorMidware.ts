@@ -11,17 +11,19 @@ export const ErrorMidware: ErrorRequestHandler = (err: any, req: Request, res: R
         msg: 'System error',
     };
 
+    // 에러정보 로그 출력
+    StackLogger.stack('에러정보');
+    StackLogger.stack(err.msg || err);
+
     // 입력값이 있으면 그 값을 입력한다
     if (err instanceof BizError) {
         response = {
             code: err.code,
             msg: err.msg || ('ERROR'),
         };
+        StackLogger.stack(err.exception);
     }
 
-    // 에러정보 로그 출력
-    StackLogger.stack('에러정보');
-    StackLogger.stack(err.msg || err);
 
     // 결과 로그 출력
     StackLogger.stack("Response", response);
