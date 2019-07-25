@@ -2,8 +2,8 @@ import {RequestHandler} from "express-serve-static-core";
 import express from "express";
 import {StackLogger} from "../../utils/logger/StackLogger";
 import {WrapRequestHandler} from "../../routes/WrapRequestHandler";
+import {DefResCode} from "../../resCode/ResCode";
 
-const enUS = require('../../../resources/codes/en-US.json');
 export const ResMidware: RequestHandler = WrapRequestHandler(async (req, res, next) => {
     // stack 로거를 초기화 시킨다
     StackLogger.init();
@@ -18,19 +18,19 @@ export const ResMidware: RequestHandler = WrapRequestHandler(async (req, res, ne
 
 
     // 기능정의
-    res.bizSend = (value?: { code?: number, body?: any }): express.Response => {
+    res.bizSend = (value?: { code?: DefResCode, body?: any }): express.Response => {
 
         // 0~999 까지는 예약 코드로
         let code = 200;
         if ((value) && (value.code)) {
-            code = value.code;
+            code = value.code.code;
         }
         let status = code < 1000 ? code : 200;
 
         // 응답 입력
-        let response:any = {
+        let response: any = {
             code: code,
-            msg: enUS[String(code)] || "", // 다국어화 할떄 이곳을 고치기
+            msg: value ? (value.code ? value.code.msg : "") : ""
         };
 
         // 바디가 있으면 추가한다
