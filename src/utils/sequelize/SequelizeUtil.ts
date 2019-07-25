@@ -1,10 +1,10 @@
-import camelcase = require("camelcase");
-import {QueryOptions, QueryTypes} from "sequelize";
-import {DB} from "./Sequelize";
+import { QueryOptions, QueryTypes } from "sequelize";
+import { Sequelize } from "sequelize-typescript";
 
 
 export class SequelizerUtil {
-    constructor() {
+    constructor(private sequel: Sequelize) {
+        this.sequel = sequel;
     }
 
     // 선택쿼리
@@ -21,7 +21,7 @@ export class SequelizerUtil {
                     options.type = QueryTypes.SELECT;
                 }
 
-                const result = await DB.sequel.query(sql, options);
+                const result = await this.sequel.query(sql, options);
                 resolve(result);
 
                 // let resArray = [];
@@ -40,7 +40,7 @@ export class SequelizerUtil {
     }
 
     // 선택쿼리
-    selectOne<T>(sql: string | { query: string, values: any[] }, options?: QueryOptions | any): Promise<T> {
+    selectOne<T>(sql: string | { query: string, values: any[] }, options?: QueryOptions): Promise<T> {
         return new Promise<any>(async (resolve, reject) => {
             try { // 쿼리를 실행한다
 
@@ -53,14 +53,17 @@ export class SequelizerUtil {
                     options.type = QueryTypes.SELECT;
                 }
 
-                const result = await DB.sequel.query(sql, options);
+                const result = await this.sequel.query(sql, options);
 
                 // 결과값이 없으면 null 값을 반환한다
                 if (result.length == 0) {
                     resolve(null);
                 }
+                else {
+                    const item = result.pop();
+                    resolve(item);
+                }
 
-                resolve(result[0]);
 
                 // let item: any = {};
                 // for (let name in result) {
@@ -87,7 +90,7 @@ export class SequelizerUtil {
                     options.type = QueryTypes.UPDATE;
                 }
 
-                const raw = await DB.sequel.query(sql, options);
+                const raw = await this.sequel.query(sql, options);
                 resolve(raw);
             } catch (e) {
                 reject(e);
@@ -108,7 +111,7 @@ export class SequelizerUtil {
                     options.type = QueryTypes.DELETE;
                 }
 
-                const raw = await DB.sequel.query(sql, options);
+                const raw = await this.sequel.query(sql, options);
                 // Logger.debug("SQL", {sql: sql, options: options, result: raw[0]});
                 resolve(raw);
             } catch (e) {
@@ -129,7 +132,7 @@ export class SequelizerUtil {
                 } else {
                     options.type = QueryTypes.INSERT;
                 }
-                const raw = await DB.sequel.query(sql, options);
+                const raw = await this.sequel.query(sql, options);
                 resolve(raw);
             } catch (e) {
                 // Logger.debug("SQL Fail", [sql, options, e]);

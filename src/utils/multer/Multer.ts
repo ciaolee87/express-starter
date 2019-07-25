@@ -4,6 +4,7 @@ import * as fs from "fs";
 import Logger from "../logger/WinstonLogger";
 import {BizError} from "../../midwares/error/ErrorMidware";
 import {UploadFile} from "../../models/UploadFile";
+import {ResCode} from "../../resCode/ResCode";
 
 const multer = require('multer');
 const dateFormat = require('dateformat');
@@ -28,7 +29,7 @@ const diskStorage = multer.diskStorage({
         if (!fs.existsSync(pathString)) {
             fs.mkdir(pathString, () => {
                 Logger.debug("+- 파일 업로드 폴더 생성에 실패하였습니다");
-                callback(new BizError(500, "파일 업로드 실패"), null);
+                callback(new BizError(ResCode.c500), null);
             });
         }
         callback(null, pathString);
@@ -75,7 +76,7 @@ const MulterMidware = multer({
             callback(null, true);
         } else {
             // 유효하지 않은 파일
-            callback(new BizError(500, "유효하지 않은 파일"), false);
+            callback(new BizError(ResCode.c500), false);
         }
     }
 });

@@ -1,6 +1,7 @@
 import {RequestHandler} from "express";
 import {NextFunction, Request, Response} from "express-serve-static-core";
 import {BizError} from "../midwares/error/ErrorMidware";
+import {ResCode} from "../resCode/ResCode";
 
 export function WrapRequestHandler(handler: RequestHandler): RequestHandler {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -10,7 +11,7 @@ export function WrapRequestHandler(handler: RequestHandler): RequestHandler {
             if (e instanceof BizError) {
                 next(e);
             } else {
-                next(new BizError(500, e));
+                next(new BizError(ResCode.c500));
             }
         }
     };

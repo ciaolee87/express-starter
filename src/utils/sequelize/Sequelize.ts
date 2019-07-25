@@ -28,7 +28,7 @@ const sequel = new Sequelize(config);
 sequel.addModels(Models);
 
 // 쿼리 유틸
-const query = new SequelizerUtil();
+const query = new SequelizerUtil(sequel);
 
 // 모델 작성
 export const DB = {

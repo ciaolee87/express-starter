@@ -1,6 +1,7 @@
 import {RequestHandler} from "express";
 import {WrapRequestHandler} from "../../routes/WrapRequestHandler";
 import {BizError} from "../error/ErrorMidware";
+import {ResCode} from "../../resCode/ResCode";
 
 const appVersion = String(process.env.CLIENT_VERSION || '1.0.0').split('.');
 
@@ -12,7 +13,7 @@ export const VersionMidware: RequestHandler = WrapRequestHandler(async (req, res
 
     for (let i of [0, 1, 2]) {
         if (Number(spApp[i]) < Number(appVersion[i])) {
-            throw new BizError(9950);
+            throw new BizError(ResCode.c9950);
         }
     }
 

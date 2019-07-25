@@ -1,5 +1,6 @@
 import {ErrorRequestHandler, NextFunction, Request, Response} from "express-serve-static-core";
 import {StackLogger} from "../../utils/logger/StackLogger";
+import {DefResCode, ResCode} from "../../resCode/ResCode";
 
 // 메시지
 const errorMsg = require('../../../resources/codes/en-US.json');
@@ -42,10 +43,12 @@ export const ErrorMidware: ErrorRequestHandler = (err: any, req: Request, res: R
 export class BizError extends Error {
     code: number;
     msg?: any;
+    exception: any;
 
-    constructor(code: number, msg?: any) {
-        super(msg);
-        this.code = code;
-        this.msg = msg;
+    constructor(resCode: DefResCode, e?: any) {
+        super(resCode.msg);
+        this.code = resCode.code;
+        this.msg = resCode.msg;
+        this.exception = e;
     }
 }
