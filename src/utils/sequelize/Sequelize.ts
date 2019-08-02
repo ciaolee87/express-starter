@@ -11,7 +11,8 @@ let config: any = {
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
     port: process.env.DB_PORT,
-    dialectOptions: {decimalNumbers: true}
+    dialectOptions: {decimalNumbers: true},
+    timezone: process.env.DB_TIMEZONE
 };
 
 // 로깅 프린트 옵션이 있다면 적용한다

@@ -46,9 +46,9 @@ const diskStorage = multer.diskStorage({
         }
 
         // 세션 정보가 있다면 데이터를 생성한다
-        if ((req.sessionInfo) && (req.sessionInfo.accountId)) {
+        if ((req.user.sessionId) && (req.user.accountId)) {
             UploadFile.create({
-                userId: req.sessionInfo.accountId,
+                userId: req.user.accountId,
                 filePath: filePath,
                 fileSize: file.size,
                 fieldName: file.fieldname
