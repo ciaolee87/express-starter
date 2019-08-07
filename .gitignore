@@ -7,6 +7,8 @@ node_modules
 /build/
 logs/
 uploads/
+./resources/config/.env
+
 
 
 # Don't check in secret files
