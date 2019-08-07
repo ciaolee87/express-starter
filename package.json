@@ -1,12 +1,12 @@
 {
-  "name": "ubi",
+  "name": "perfect-sms",
   "version": "1.0.0",
-  "description": "Simple billing note database",
+  "description": "Simple fast sms system",
   "main": "app.js",
   "scripts": {
-    "pm2": "tsc && pm2 start ./resources/js/pm2.config.js --env development",
-    "pm2prod": "tsc && pm2 start ./resources/js/pm2.config.js --env production",
-    "pm2test": "tsc && pm2 start ./resources/js/pm2.config.js --env test",
+    "pm2": "pm2 start ./resources/js/pm2.config.js --env development",
+    "pm2prod": "pm2 start ./resources/js/pm2.config.js --env production",
+    "pm2test": "pm2 start ./resources/js/pm2.config.js --env test",
     "build": "tsc --build ./tsconfig.json",
     "start": "nodemon --watch src --delay 1 --exec 'ts-node' --files src/App.ts ",
     "webpack": "webpack --config ./resources/js/webpack.config.js --optimize-minimize",
