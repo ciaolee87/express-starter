@@ -7,7 +7,7 @@ node_modules
 /build/
 logs/
 uploads/
-./resources/config/.env
+/resources/config/.env
 
 
 
@@ -30,3 +30,4 @@ docs/idea/receipt/.DS_Store
 
 src/migrations/
 src/seeders/
+resources/config/.envOrig
