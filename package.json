@@ -68,7 +68,6 @@
     "@types/socket.io": "^2.1.2",
     "@types/socket.io-client": "^1.4.32",
     "@types/uuid": "^3.4.4",
-    "@types/validator": "^10.11.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "chai": "^4.2.0",
