@@ -22,8 +22,13 @@ export const ErrorMidware: ErrorRequestHandler = (err: any, req: Request, res: R
             msg: err.msg || ('ERROR'),
         };
         StackLogger.stack(err.exception);
-    }
 
+        // 콜백실행
+        if (err.resCode.callback) {
+            StackLogger.stack("에러콜백을 실행합니다");
+            err.resCode.callback(req, res);
+        }
+    }
 
     // 결과 로그 출력
     StackLogger.stack("Response", response);
@@ -44,11 +49,13 @@ export class BizError extends Error {
     code: number;
     msg?: any;
     exception: any;
+    resCode: DefResCode;
 
     constructor(resCode: DefResCode, e?: any) {
         super(resCode.msg);
         this.code = resCode.code;
         this.msg = resCode.msg;
         this.exception = e;
+        this.resCode = resCode;
     }
 }
