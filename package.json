@@ -11,7 +11,7 @@
     "start": "nodemon --watch src --delay 1 --exec 'ts-node' --files src/App.ts ",
     "webpack": "webpack --config ./resources/js/webpack.config.js --optimize-minimize",
     "webpackStart": "nodemon --watch src --delay 1 --exec 'node' dist/bundle.js",
-    "update": "ncu -u && npm i"
+    "update": "ncu -u && npm i "
   },
   "test": {
     "test": "mocha -r ts-node/register test/**/test.ts"
