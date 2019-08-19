@@ -2,7 +2,7 @@ import {Sequelize} from 'sequelize-typescript';
 import {SequelizerUtil} from "./SequelizeUtil";
 import {Models} from "../../models";
 import {SyncOptions} from "sequelize";
-import Logger from "../logger/WinstonLogger";
+import {StackLogger} from "../logger/StackLogger";
 
 let config: any = {
     username: process.env.DB_USER,
@@ -12,15 +12,16 @@ let config: any = {
     dialect: process.env.DB_DIALECT,
     port: process.env.DB_PORT,
     dialectOptions: {decimalNumbers: true},
-    timezone: process.env.DB_TIMEZONE
-};
-
-// 로깅 프린트 옵션이 있다면 적용한다
-if (process.env.LOG_PRINT == 'true') {
-    config.logging = (str: any) => {
-        Logger.debug(str);
+    timezone: process.env.DB_TIMEZONE,
+    logging: (str: any) => {
+        // 로깅 프린트 옵션이 있다면 적용한다
+        if (process.env.LOG_PRINT == 'true') {
+            StackLogger.stack(str);
+        } else {
+            console.log('SQL', str);
+        }
     }
-}
+};
 
 // 시퀄라이저 객체 생성
 const sequel = new Sequelize(config);
