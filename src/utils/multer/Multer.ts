@@ -52,10 +52,13 @@ const diskStorage = multer.diskStorage({
                 filePath: filePath,
                 fileSize: file.size,
                 fieldName: file.fieldname
+            }).then(value => {
+                callback(null, filePath);
             })
+        } else {
+            // 세션정보가 없다면 에러처리
+            callback(new BizError(ResCode.c401), null);
         }
-
-        callback(null, filePath);
     }
 
 });
