@@ -44,23 +44,8 @@ const diskStorage = multer.diskStorage({
                 break;
             }
         }
-
-        // 세션 정보가 있다면 데이터를 생성한다
-        if ((req.user.sessionId) && (req.user.accountId)) {
-            UploadFile.create({
-                userId: req.user.accountId,
-                filePath: filePath,
-                fileSize: file.size,
-                fieldName: file.fieldname
-            }).then(value => {
-                callback(null, filePath);
-            })
-        } else {
-            // 세션정보가 없다면 에러처리
-            callback(new BizError(ResCode.c401), null);
-        }
+        callback(null, filePath);
     }
-
 });
 
 const MulterMidware = multer({
