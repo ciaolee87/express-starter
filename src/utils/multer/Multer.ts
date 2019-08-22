@@ -25,7 +25,12 @@ const diskStorage = multer.diskStorage({
     destination: (req: Express.Request, file: Express.Multer.File, callback: (error: Error | null, destination: string) => void) => {
 
         let now = new Date();  // 서버시간을 가저온다
-        let pathString = path.join(__dirname, process.env.UPLOAD_FILE_PATH, dateFormat(now, "yymmdd"));
+
+        // 개발모드에서는 상대경로, 테스트나 운영 버전의 경로 절대경로로 지정한다
+        let pathString = process.env.NODE_ENV === 'development' ?
+            path.join(__dirname, process.env.UPLOAD_FILE_PATH, dateFormat(now, "yymmdd")) :
+            path.join(process.env.UPLOAD_FILE_PATH, dateFormat(now, "yymmdd"));
+
         if (!fs.existsSync(pathString)) {
             fs.mkdir(pathString, () => {
                 Logger.debug("+- 파일 업로드 폴더 생성에 실패하였습니다");
