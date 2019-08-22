@@ -9,6 +9,9 @@ import {ResCode} from "../../resCode/ResCode";
 const multer = require('multer');
 const dateFormat = require('dateformat');
 
+// yymmdd 포멧으로 지정, yymm의 경우 1달에 한번 폴더 이름이 바뀜
+const dirDatePathType = 'yymm';
+
 
 // 루트 폴더가 있는지 확인한다
 let rootPath = path.join(__dirname, process.env.UPLOAD_FILE_PATH);
@@ -28,8 +31,8 @@ const diskStorage = multer.diskStorage({
 
         // 개발모드에서는 상대경로, 테스트나 운영 버전의 경로 절대경로로 지정한다
         let pathString = process.env.NODE_ENV === 'development' ?
-            path.join(__dirname, process.env.UPLOAD_FILE_PATH, dateFormat(now, "yymmdd")) :
-            path.join(process.env.UPLOAD_FILE_PATH, dateFormat(now, "yymmdd"));
+            path.join(__dirname, process.env.UPLOAD_FILE_PATH, dateFormat(now, dirDatePathType)) :
+            path.join(process.env.UPLOAD_FILE_PATH, dateFormat(now, dirDatePathType));
 
         if (!fs.existsSync(pathString)) {
             fs.mkdir(pathString, () => {
@@ -45,7 +48,7 @@ const diskStorage = multer.diskStorage({
 
         while (true) {
             filePath = uuid.v4();
-            if (!fs.existsSync(path.join(__dirname, process.env.UPLOAD_FILE_PATH, dateFormat(now, "yymmdd"), filePath))) {
+            if (!fs.existsSync(path.join(__dirname, process.env.UPLOAD_FILE_PATH, dateFormat(now, dirDatePathType), filePath))) {
                 break;
             }
         }
