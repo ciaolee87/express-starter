@@ -2,7 +2,7 @@ import {Sequelize} from 'sequelize-typescript';
 import {SequelizerUtil} from "./SequelizeUtil";
 import {Models} from "../../models";
 import {SyncOptions} from "sequelize";
-import {StackLogger} from "../logger/StackLogger";
+import Logger from "../logger/WinstonLogger";
 
 let config: any = {
     username: process.env.DB_USER,
@@ -16,7 +16,7 @@ let config: any = {
     logging: (str: any) => {
         // 로깅 프린트 옵션이 있다면 적용한다
         if (process.env.LOG_PRINT == 'true') {
-            StackLogger.stack(str);
+            Logger.debug(str);
         } else {
             console.log('SQL', str);
         }

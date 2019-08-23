@@ -1,17 +1,16 @@
 import {Request, Response} from "express-serve-static-core";
-import {StackLogger} from "../utils/logger/StackLogger";
 
 export class ResCode {
     static c200: DefResCode = {code: 200, msg: "success"};
     static c401: DefResCode = {
         code: 401, msg: "session-expired", callback: (req, res) => {
-            StackLogger.stack('세션쿠키를 삭제합니다');
+            res.logger.log('세션쿠키를 삭제합니다');
             res.clearCookie('session-cookie');
         }
     };
     static c403: DefResCode = {
         code: 403, msg: "fail-jwt-token-decode", callback: (req, res) => {
-            StackLogger.stack('세션쿠키를 삭제합니다');
+            res.logger.log('세션쿠키를 삭제합니다');
             res.clearCookie('session-cookie');
         }
     };

@@ -1,21 +1,19 @@
 import {RequestHandler} from "express-serve-static-core";
 import express from "express";
-import {StackLogger} from "../../utils/logger/StackLogger";
 import {WrapRequestHandler} from "../../routes/WrapRequestHandler";
 import {DefResCode} from "../../resCode/ResCode";
+import {SessionLogger} from "../../utils/logger/SessionLogger";
 
 export const ResMidware: RequestHandler = WrapRequestHandler(async (req, res, next) => {
-    // stack 로거를 초기화 시킨다
-    StackLogger.init();
-
-    // 리퀘스트 로거 출력
-    StackLogger.stack('url', [req.url]);
-    StackLogger.stack('method', [req.method]);
-    StackLogger.stack('token', [req.headers.token]);
-    StackLogger.stack('body', [req.body]);
-    StackLogger.stack('query', [req.query]);
-    StackLogger.stack('cookie', [req.cookies]);
-
+    // 새로운 세션 로거 시작
+    res.logger = new SessionLogger();
+    const logger = res.logger.createLogger();
+    logger('url', req.url);
+    logger('method', req.method);
+    logger('body', req.body);
+    logger('query', req.query);
+    logger('cookie', req.cookies);
+    logger('ip', req.ip);
 
     // 기능정의
     res.bizSend = (value?: { code?: DefResCode, body?: any }): express.Response => {
@@ -39,10 +37,8 @@ export const ResMidware: RequestHandler = WrapRequestHandler(async (req, res, ne
         }
 
         // 결과 로그 출력
-        StackLogger.stack("Response", response);
-
-        // 로그출력
-        StackLogger.flush();
+        logger('response', response);
+        res.logger.flush();
 
         // 응답하기
         res.setHeader("content-type", "application/json");

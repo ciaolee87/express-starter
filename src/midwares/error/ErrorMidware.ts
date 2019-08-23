@@ -1,5 +1,4 @@
 import {ErrorRequestHandler, NextFunction, Request, Response} from "express-serve-static-core";
-import {StackLogger} from "../../utils/logger/StackLogger";
 import {DefResCode} from "../../resCode/ResCode";
 
 
@@ -12,8 +11,12 @@ export const ErrorMidware: ErrorRequestHandler = (err: any, req: Request, res: R
     };
 
     // 에러정보 로그 출력
-    StackLogger.stack('에러정보');
-    StackLogger.stack(err.msg || err);
+    const logger = res.logger.createLogger('에러정보');
+    if (err instanceof BizError) {
+
+    } else {
+        logger(err);
+    }
 
     // 입력값이 있으면 그 값을 입력한다
     if (err instanceof BizError) {
@@ -21,20 +24,19 @@ export const ErrorMidware: ErrorRequestHandler = (err: any, req: Request, res: R
             code: err.code,
             msg: err.msg || ('ERROR'),
         };
-        StackLogger.stack(err.exception);
+        logger(err.msg);
+        logger(err.exception);
 
         // 콜백실행
         if (err.resCode.callback) {
-            StackLogger.stack("에러콜백을 실행합니다");
+            logger('에러 콜백을 실행합니다');
             err.resCode.callback(req, res);
         }
     }
 
     // 결과 로그 출력
-    StackLogger.stack("Response", response);
-
-    // 로거출력
-    StackLogger.flush();
+    logger("response", response);
+    res.logger.flush();
 
     // 에러 표시
     const resCode = err.code < 1000 ? err.code : 200;
