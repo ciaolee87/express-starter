@@ -3,14 +3,9 @@ import uuid = require("uuid");
 import * as fs from "fs";
 import Logger from "../logger/WinstonLogger";
 import {BizError} from "../../midwares/error/ErrorMidware";
-import {UploadFile} from "../../models/UploadFile";
 import {ResCode} from "../../resCode/ResCode";
 
 const multer = require('multer');
-const dateFormat = require('dateformat');
-
-// yymmdd 포멧으로 지정, yymm의 경우 1달에 한번 폴더 이름이 바뀜
-const dirDatePathType = 'yymm';
 
 
 // 루트 폴더가 있는지 확인한다
@@ -27,12 +22,12 @@ if (!fs.existsSync(rootPath)) {
 const diskStorage = multer.diskStorage({
     destination: (req: Express.Request, file: Express.Multer.File, callback: (error: Error | null, destination: string) => void) => {
 
-        let now = new Date();  // 서버시간을 가저온다
+        // 서버 기동시 최초 1번만 콜 한다
 
         // 개발모드에서는 상대경로, 테스트나 운영 버전의 경로 절대경로로 지정한다
         let pathString = process.env.NODE_ENV === 'development' ?
-            path.join(__dirname, process.env.UPLOAD_FILE_PATH, dateFormat(now, dirDatePathType)) :
-            path.join(process.env.UPLOAD_FILE_PATH, dateFormat(now, dirDatePathType));
+            path.join(__dirname, process.env.UPLOAD_FILE_PATH) :
+            path.join(process.env.UPLOAD_FILE_PATH);
 
         if (!fs.existsSync(pathString)) {
             fs.mkdir(pathString, () => {
@@ -43,14 +38,14 @@ const diskStorage = multer.diskStorage({
         callback(null, pathString);
     },
     filename: (req: Express.Request, file: Express.Multer.File, callback: (error: Error | null, filename: string) => void) => {
-        let filePath = "";
-        let now = new Date();  // 서버시간을 가저온다
+        // 파일이 업로드 될때마다 콜된다.
+        let filePath = uuid.v4();
 
         while (true) {
-            filePath = uuid.v4();
-            if (!fs.existsSync(path.join(__dirname, process.env.UPLOAD_FILE_PATH, dateFormat(now, dirDatePathType), filePath))) {
+            if (!fs.existsSync(path.join(__dirname, process.env.UPLOAD_FILE_PATH, filePath))) {
                 break;
             }
+            filePath = uuid.v4();
         }
         callback(null, filePath);
     }
