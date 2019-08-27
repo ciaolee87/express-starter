@@ -3,6 +3,7 @@ import uuid = require("uuid");
 import * as fs from "fs";
 import Logger from "../logger/WinstonLogger";
 import {BizError} from "../../midwares/error/ErrorMidware";
+import {UploadFile} from "../../models/UploadFile";
 import {ResCode} from "../../resCode/ResCode";
 
 const multer = require('multer');

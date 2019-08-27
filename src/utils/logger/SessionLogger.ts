@@ -42,7 +42,13 @@ export class SessionLogger {
         Logger.debug('+ Session logging start');
 
         for (let log of this.logStackList) {
-            Logger.debug(`| ${this.getDate(log.time)} ${log.msg}`, log.args);
+            if ((log.args instanceof Object) ||
+                (log.args instanceof Array)) {
+                Logger.debug(`| ${this.getDate(log.time)} ${log.msg}`, log.args);
+            } else {
+                Logger.debug(`| ${this.getDate(log.time)} ${log.msg}`, [log.args]);
+            }
+
         }
         Logger.debug('+ Session logging end\n\n');
     }
