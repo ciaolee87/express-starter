@@ -3,14 +3,13 @@ import uuid = require("uuid");
 import * as fs from "fs";
 import Logger from "../logger/WinstonLogger";
 import {BizError} from "../../midwares/error/ErrorMidware";
-import {UploadFile} from "../../models/UploadFile";
 import {ResCode} from "../../resCode/ResCode";
 
 const multer = require('multer');
 
 
 // 루트 폴더가 있는지 확인한다
-let rootPath = path.join(__dirname, process.env.UPLOAD_FILE_PATH);
+let rootPath = path.join(process.env.UPLOAD_FILE_PATH);
 if (!fs.existsSync(rootPath)) {
     fs.mkdir(rootPath, () => {
         Logger.debug("+- 파일 업로드 폴더 생성에 실패하였습니다");
@@ -22,14 +21,8 @@ if (!fs.existsSync(rootPath)) {
 // 저장 옵션
 const diskStorage = multer.diskStorage({
     destination: (req: Express.Request, file: Express.Multer.File, callback: (error: Error | null, destination: string) => void) => {
-
         // 서버 기동시 최초 1번만 콜 한다
-
-        // 개발모드에서는 상대경로, 테스트나 운영 버전의 경로 절대경로로 지정한다
-        let pathString = process.env.NODE_ENV === 'development' ?
-            path.join(__dirname, process.env.UPLOAD_FILE_PATH) :
-            path.join(process.env.UPLOAD_FILE_PATH);
-
+        let pathString = path.join(process.env.UPLOAD_FILE_PATH);
         if (!fs.existsSync(pathString)) {
             fs.mkdir(pathString, () => {
                 Logger.debug("+- 파일 업로드 폴더 생성에 실패하였습니다");
@@ -40,15 +33,14 @@ const diskStorage = multer.diskStorage({
     },
     filename: (req: Express.Request, file: Express.Multer.File, callback: (error: Error | null, filename: string) => void) => {
         // 파일이 업로드 될때마다 콜된다.
-        let filePath = uuid.v4();
-
+        let fileName = uuid.v4();
         while (true) {
-            if (!fs.existsSync(path.join(__dirname, process.env.UPLOAD_FILE_PATH, filePath))) {
+            if (!fs.existsSync(path.join(process.env.UPLOAD_FILE_PATH, fileName))) {
                 break;
             }
-            filePath = uuid.v4();
+            fileName = uuid.v4();
         }
-        callback(null, filePath);
+        callback(null, fileName);
     }
 });
 
