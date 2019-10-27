@@ -11,6 +11,7 @@ import {ErrorMidware} from "./midwares/error/ErrorMidware";
 import {DbSync} from "./utils/sequelize/Sequelize";
 import {RootRouter} from "./routes/root/RootRouter";
 import {UploadRouter} from "./routes/upload/UploadRouter";
+import LogRemover from "./utils/logger/LogRemover";
 
 // DotEnv 초기화
 console.log("EnvPath", EnvPath);
@@ -20,6 +21,9 @@ DbSync();
 
 // Express 초기화
 const ExpressApp = express();
+
+// 로그 자동 삭제 스케쥴러 시작
+LogRemover.invoke();
 
 // 기초보안패치
 ExpressApp.use(Helmet());

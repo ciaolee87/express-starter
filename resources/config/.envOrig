@@ -1,10 +1,10 @@
 PORT=3000
-UPLOAD_FILE_PATH=../../../uploads
+UPLOAD_FILE_PATH=/Users/ciaolee/Documents/express-starter/uploads
 UPLOAD_FILE_MAX_BYTE_SIZE=5242880
 UPLOAD_FILE_FILTER=png|bmp|jpg
 JWT_TOKEN_SECRET=JW7_t0k3n_S3cR37
 JWT_TOKEN_MAKER=JW7_t0k3n_M4k3R
-LOG_PATH=../logs
+LOG_PATH=/Users/ciaolee/Documents/express-starter/logs
 LOG_LEVEL=debug
 LOG_PREFIX=
 LOG_PRINT=false
