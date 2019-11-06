@@ -16,7 +16,12 @@ export class ResCode {
     };
     static c404: DefResCode = {code: 404, msg: "page-not-found"};
     static c500: DefResCode = {code: 500, msg: "server-error"};
-    static c1000: DefResCode = {code: 1000, msg: "account-not-found"};
+
+
+    /* 회원 */
+    static c1000: DefResCode = {code: 1000, msg: "no-exist-firebase-data"};
+    static c1001: DefResCode = {code: 1001, msg: "no-exist-uid"};
+
     static c9950: DefResCode = {code: 9950, msg: "unsupported-client-version"};
 }
 

@@ -6,6 +6,7 @@
     "./node_modules",
     "./test/**/*"
   ],
+  "baseUrl": "./src",
   "compilerOptions": {
     /* Basic Options */
     "target": "es6",
