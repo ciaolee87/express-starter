@@ -45,5 +45,11 @@ export const ResMidware: RequestHandler = WrapRequestHandler(async (req, res, ne
         return res.status(status).send(response);
     };
 
+    // 다운로드 정의
+    res.bizFileSend = (filepath: string, callback?: (err: any) => void) => {
+        logger('filepath', filepath);
+        res.logger.flush();
+        res.sendFile(filepath, callback);
+    };
     next();
 });
