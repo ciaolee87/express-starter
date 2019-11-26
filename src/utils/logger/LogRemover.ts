@@ -5,7 +5,7 @@ import {LineLogger} from "./LineLogger";
 import * as path from "path";
 
 // 매일 밤 0시에 30일 로그 삭제하기
-const LogRemover = scheduleJob('* * 0 * * *', () => {
+const LogRemover = scheduleJob('0 0 0 * * *', () => {
 
 	LineLogger(`30일이 지난 로그를 삭제합니다`);
 
