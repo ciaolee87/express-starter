@@ -44,8 +44,8 @@ ExpressApp.use(AwsHealthCheckerMidware);
 ExpressApp.use(ResMidware);
 
 // 이곳에 라우터 추가하기
-ExpressApp.use('/', RootRouter);
-ExpressApp.use('/upload', UploadRouter);
+// ExpressApp.use('/', RootRouter);
+// ExpressApp.use('/upload', UploadRouter);
 
 // 등록된 요청값이 아니면 에러처리 하기
 ExpressApp.use(InvalidRequestMidware);
