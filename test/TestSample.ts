@@ -5,7 +5,7 @@ import chaiHttp from "chai-http";
 
 
 chai.use(chaiHttp);
-const url = 'localhost:3000';
+const agent = chai.request.agent('http://localhost:3000');
 
 
 @suite("Test 테스트")
