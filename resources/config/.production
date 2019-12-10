@@ -18,6 +18,6 @@ DB_DIALECT=mysql
 DB_PORT=3306
 DB_ALTER=true
 DB_LOG=true
-DB_FORCE=false
+DB_FORCE=true
 DB_TIMEZONE=+09:00
 TZ=Asia/Seoul

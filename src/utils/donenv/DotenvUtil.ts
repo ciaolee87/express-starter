@@ -2,39 +2,25 @@ import * as path from "path";
 import fs from "fs";
 import dotEnv from "dotenv";
 
-// 값이 지정되지 않았다면 초기값을 넣어준다
-if (!(process.env.NODE_ENV)) {
-    process.env.NODE_ENV = "development";
-}
-
 // 화면에 표시
-console.log(`서버모드 ${process.env.NODE_ENV}`);
+console.log(`서버모드 ${process.env.NODE_ENV || 'default'}`);
 
-let EnvPath: string = "";
-switch (process.env.NODE_ENV) {
-    case "development" :
-        EnvPath = path.join(__dirname, '../../../resources/config/.env');
-        break;
-    case "test":
-        EnvPath = path.join(__dirname, '../../../resources/config/.envTest');
-        break;
-    case "production":
-        EnvPath = path.join(__dirname, '../../../resources/config/.envProduction');
-        break;
-}
+// 초기값 입력하기
+let EnvPath: string = path.join(__dirname, `../../../resources/config/.${process.env.NODE_ENV || 'env'}`);
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 if (fs.existsSync(EnvPath)) {
-    const result = dotEnv.config({
-        path: EnvPath,
-        debug: true
-    });
+	const result = dotEnv.config({
+		path: EnvPath,
+		debug: true
+	});
 
-    // 기동모드 출력하기
-    console.log('DotEnv 초기화 완료', [result]);
+	// 기동모드 출력하기
+	console.log('DotEnv 초기화 완료', [result]);
 } else {
-    console.log("DotEnv 파일 불러오기 실패");
-    console.log("서버 종료");
-    process.exit(0);
+	console.log("DotEnv 파일 불러오기 실패");
+	console.log("서버 종료");
+	process.exit(0);
 }
 
 export default EnvPath;

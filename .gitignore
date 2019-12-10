@@ -10,6 +10,8 @@ uploads/
 /resources/config/.env
 
 
+# env
+resources/config/.env
 
 # Don't check in secret files
 *secret.js
@@ -25,10 +27,11 @@ package-lock.json
 pages/
 
 
+
 # rollup-.env output
 docs/idea/receipt/.DS_Store
 
 src/migrations/
 src/seeders/
-resources/config/.envOrig
+resources/config/.production
 uploads

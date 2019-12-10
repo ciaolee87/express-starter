@@ -1,4 +1,5 @@
 import EnvPath from "./utils/donenv/DotenvUtil";
+import LogRemover from "./utils/logger/LogRemover";
 import express from 'express';
 import * as path from 'path';
 import cookieParser from "cookie-parser";
@@ -8,16 +9,12 @@ import {AwsHealthCheckerMidware} from "./midwares/aws/AwsHealthCheckerMidware";
 import {ResMidware} from "./midwares/res/ResMidware";
 import {InvalidRequestMidware} from "./midwares/pageNotFound/InvalidRequestMidware";
 import {ErrorMidware} from "./midwares/error/ErrorMidware";
-import {DbSync} from "./utils/sequelize/Sequelize";
-import {RootRouter} from "./routes/root/RootRouter";
-import {UploadRouter} from "./routes/upload/UploadRouter";
-import LogRemover from "./utils/logger/LogRemover";
 
 // DotEnv 초기화
-console.log("EnvPath", EnvPath);
+console.log(EnvPath);
 
 // 데이터베이스 초기화
-DbSync();
+// DbSync();
 
 // Express 초기화
 const ExpressApp = express();
@@ -55,8 +52,8 @@ ExpressApp.use(ErrorMidware);
 
 // 포트열고 서버실행
 ExpressApp.listen(Number(process.env.PORT), () => {
-    console.log(`Server ON, Port ${process.env.PORT}`);
+	console.log(`Server ON, Port ${process.env.PORT}`);
 }).on("error", (error) => {
-    console.log(`Fail to open sever!`, error);
-    process.exit(0);
+	console.log(`Fail to open sever!`, error);
+	process.exit(0);
 });
