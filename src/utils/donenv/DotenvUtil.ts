@@ -3,11 +3,12 @@ import fs from "fs";
 import dotEnv from "dotenv";
 
 // 화면에 표시
-console.log(`서버모드 ${process.env.NODE_ENV || 'default'}`);
+
 
 // 초기값 입력하기
 let EnvPath: string = path.join(__dirname, `../../../resources/config/.${process.env.NODE_ENV || 'env'}`);
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
+process.env.NODE_ENV = process.env.NODE_ENV || "env";
+console.log(`서버모드 ${process.env.NODE_ENV || 'env'}`);
 
 if (fs.existsSync(EnvPath)) {
 	const result = dotEnv.config({
