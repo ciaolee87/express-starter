@@ -14,7 +14,6 @@
     "test": "mocha -r ts-node/register test/**/test.ts"
   },
   "dependencies": {
-
     "cookie-parser": "1.4.5",
     "debug": "4.1.1",
     "decimal.js": "10.2.0",
