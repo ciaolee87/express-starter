@@ -1,5 +1,4 @@
 import EnvPath from "./utils/donenv/DotenvUtil";
-import LogRemover from "./utils/logger/LogRemover";
 import express from 'express';
 import * as path from 'path';
 import cookieParser from "cookie-parser";
@@ -18,9 +17,6 @@ console.log(EnvPath);
 
 // Express 초기화
 const ExpressApp = express();
-
-// 로그 자동 삭제 스케쥴러 시작
-LogRemover.invoke();
 
 // 기초보안패치
 ExpressApp.use(Helmet());

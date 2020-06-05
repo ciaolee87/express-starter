@@ -2,18 +2,26 @@ import {RequestHandler} from "express-serve-static-core";
 import express from "express";
 import {WrapRequestHandler} from "../../routes/WrapRequestHandler";
 import {DefResCode} from "../../resCode/ResCode";
-import {SessionLogger} from "../../utils/logger/SessionLogger";
+import uuid from 'uuid';
+import BizLogger from "../../utils/logger/Logger";
 
 export const ResMidware: RequestHandler = WrapRequestHandler(async (req, res, next) => {
-    // 새로운 세션 로거 시작
-    res.logger = new SessionLogger();
-    const logger = res.logger.createLogger();
-    logger('url', req.url);
-    logger('method', req.method);
-    logger('body', req.body);
-    logger('query', req.query);
-    logger('cookie', req.cookies);
-    logger('ip', req.ip);
+    // 고유 요청 아이디 생성
+    req.requestId = uuid.v4();
+
+
+
+    // 새로운 로거 시작
+    req.logger = (key, value) => {
+        const  wrapValue = {
+            requestId: req.requestId,
+            ...value
+        }
+        BizLogger(key, wrapValue);
+    }
+
+    const {url, method, query, cookies, ip, body} = req;
+    req.logger('request', {url, method, query, cookies, ip, body});
 
     // 기능정의
     res.bizSend = (value?: { code?: DefResCode, body?: any }): express.Response => {
@@ -37,8 +45,7 @@ export const ResMidware: RequestHandler = WrapRequestHandler(async (req, res, ne
         }
 
         // 결과 로그 출력
-        logger('response', response);
-        res.logger.flush();
+        req.logger('response', response);
 
         // 응답하기
         res.setHeader("content-type", "application/json");
@@ -47,8 +54,7 @@ export const ResMidware: RequestHandler = WrapRequestHandler(async (req, res, ne
 
     // 다운로드 정의
     res.bizFileSend = (filepath: string, callback?: (err: any) => void) => {
-        logger('filepath', filepath);
-        res.logger.flush();
+        req.logger('filepath', filepath);
         res.sendFile(filepath, callback);
     };
     next();

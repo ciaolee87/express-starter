@@ -4,13 +4,13 @@ export class ResCode {
     static c200: DefResCode = {code: 200, msg: "success"};
     static c401: DefResCode = {
         code: 401, msg: "session-expired", callback: (req, res) => {
-            res.logger.log('세션쿠키를 삭제합니다');
+            req.logger('info', '세션쿠키를 삭제합니다');
             res.clearCookie('session-cookie');
         }
     };
     static c403: DefResCode = {
         code: 403, msg: "fail-jwt-token-decode", callback: (req, res) => {
-            res.logger.log('세션쿠키를 삭제합니다');
+            req.logger('info', '세션쿠키를 삭제합니다');
             res.clearCookie('session-cookie');
         }
     };

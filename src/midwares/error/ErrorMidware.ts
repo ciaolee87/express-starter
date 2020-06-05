@@ -11,11 +11,10 @@ export const ErrorMidware: ErrorRequestHandler = (err: any, req: Request, res: R
     };
 
     // 에러정보 로그 출력
-    const logger = res.logger.createLogger('에러정보');
     if (err instanceof BizError) {
 
     } else {
-        logger(err);
+        req.logger("error", err);
     }
 
     // 입력값이 있으면 그 값을 입력한다
@@ -24,19 +23,18 @@ export const ErrorMidware: ErrorRequestHandler = (err: any, req: Request, res: R
             code: err.code,
             msg: err.msg || ('ERROR'),
         };
-        logger(err.msg);
-        logger(err.exception);
+        req.logger('msg', err.msg);
+        req.logger('exception', err.exception);
 
         // 콜백실행
         if (err.resCode.callback) {
-            logger('에러 콜백을 실행합니다');
+            req.logger('info', '에러 콜백을 실행합니다');
             err.resCode.callback(req, res);
         }
     }
 
     // 결과 로그 출력
-    logger("response", response);
-    res.logger.flush();
+    req.logger("response", response);
 
     // 에러 표시
     const resCode = err.code < 1000 ? err.code : 200;
