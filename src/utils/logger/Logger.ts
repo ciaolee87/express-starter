@@ -1,13 +1,25 @@
 import Logger from "./WinstonLogger";
 import moment from "moment";
 
-const BizLogger = (key :string, value: any) => {
-    const log = {
-        time: moment().format("yy-MM-dd hh:mm:ss"),
-        key,
-        log: value
+const BizLogger = (key :string, value: any, requestId?: string) => {
+    let log;
+    if (requestId) {
+        log = {
+            time: moment().format("yy-MM-dd hh:mm:ss"),
+            requestId,
+            key,
+            log: value
+        }
+
+    } else {
+        log = {
+            time: moment().format("YY-MM-DD hh:mm:ss"),
+            key,
+            log: value
+        }
     }
-    Logger.debug(log);
+
+    Logger.debug(JSON.stringify(log));
 }
 
 export default BizLogger;

@@ -13,11 +13,7 @@ export const ResMidware: RequestHandler = WrapRequestHandler(async (req, res, ne
 
     // 새로운 로거 시작
     req.logger = (key, value) => {
-        const  wrapValue = {
-            requestId: req.requestId,
-            ...value
-        }
-        BizLogger(key, wrapValue);
+        BizLogger(key, value, req.requestId);
     }
 
     const {url, method, query, cookies, ip, body} = req;
